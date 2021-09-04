@@ -24,6 +24,10 @@ interface ShoppingAPI {
     suspend fun postOrder(@Body order: Order): Boolean
 
     @Headers("auth:${Constants.AUTH_TOKEN}")
+    @GET("/orders/{clientEmail}")
+    suspend fun getOrders(@Path("clientEmail") clientEmail: String): List<Order>
+
+    @Headers("auth:${Constants.AUTH_TOKEN}")
     @POST("/users/register")
     suspend fun postUser(@Body user: User): Boolean
 
@@ -34,5 +38,9 @@ interface ShoppingAPI {
     @Headers("auth:${Constants.AUTH_TOKEN}")
     @GET("/users/{id}")
     suspend fun getUserData(@Path("id") id: String): User
+
+    @Headers("auth:${Constants.AUTH_TOKEN}")
+    @GET("/orders/id/{orderId}")
+    suspend fun getOrder(@Path("orderId") orderId: String): Order
 
 }

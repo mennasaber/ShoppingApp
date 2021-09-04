@@ -13,25 +13,36 @@ import com.example.shoppingapp.viewmodels.MainViewModelFactory
 
 class ProductsActivity : AppCompatActivity() {
     lateinit var mainViewModel: MainViewModel
+    lateinit var binding: ActivityProductsBinding
+    lateinit var category: String
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        val binding = ActivityProductsBinding.inflate(layoutInflater)
+        binding = ActivityProductsBinding.inflate(layoutInflater)
         binding.progressBar.visibility = View.VISIBLE
         binding.productsRecyclerView.layoutManager = GridLayoutManager(this, 2)
         val mainRepository = MainRepository()
         val mainViewModelFactory = MainViewModelFactory(mainRepository)
         mainViewModel = ViewModelProvider(this, mainViewModelFactory).get(MainViewModel::class.java)
-        val category = intent.getStringExtra("category")!!
+        category = intent.getStringExtra("category")!!
         mainViewModel.getProductsWithCategory(category)
+        setupObservers()
+        setupButtonsAction()
+        setContentView(binding.root)
+    }
+
+    private fun setupButtonsAction() {
+        binding.back.setOnClickListener {
+            finish()
+        }
+    }
+
+    private fun setupObservers() {
         mainViewModel.productsResponse.observe(this, {
             binding.categoryTitle.text = category
             binding.progressBar.visibility = View.GONE
             val productsAdapter = ProductsAdapter(it)
             binding.productsRecyclerView.adapter = productsAdapter
         })
-        binding.back.setOnClickListener {
-            finish()
-        }
-        setContentView(binding.root)
     }
 }

@@ -15,8 +15,8 @@ class CartAdapter : RecyclerView.Adapter<CartAdapter.CartViewHolder>() {
         val productPrice: TextView = view.findViewById(R.id.product_price)
         val productQuantity: TextView = view.findViewById(R.id.product_quantity)
         val productSize: TextView = view.findViewById(R.id.product_size)
-        val plusButton = view.findViewById<ImageView>(R.id.plus_button)
-        val minusButton = view.findViewById<ImageView>(R.id.minus_button)
+        val plusButton: ImageView = view.findViewById(R.id.plus_button)
+        val minusButton: ImageView = view.findViewById(R.id.minus_button)
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CartViewHolder {

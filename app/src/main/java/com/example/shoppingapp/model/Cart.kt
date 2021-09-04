@@ -15,13 +15,14 @@ object Cart {
             onTotalChanged.OnSubTotalChanged()
     }
 
-    fun createOrderObject(clientEmail:String) :Order{
+    fun createOrderObject(clientEmail: String): Order {
         val order = Order(
+            "",
             clientEmail, cartList.map { OrderItem(it.product.id, it.quantity) }, 20.0,
-            subTotal + 20
+            subTotal + 20, "", true
         )
         cartList.clear()
-        subTotal=0.0
+        subTotal = 0.0
         return order
     }
 }

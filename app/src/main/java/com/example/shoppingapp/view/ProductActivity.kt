@@ -2,7 +2,6 @@ package com.example.shoppingapp.view
 
 import android.os.Bundle
 import android.view.View
-import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProvider
 import com.example.shoppingapp.databinding.ActivityProductBinding
@@ -17,16 +16,24 @@ class ProductActivity : AppCompatActivity() {
     lateinit var mainViewModel: MainViewModel
     lateinit var product: Product
     lateinit var binding: ActivityProductBinding
+    lateinit var productId: String
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityProductBinding.inflate(layoutInflater)
-        val productId = intent.getStringExtra("productId")!!
+        productId = intent.getStringExtra("productId")!!
         changeWidgetsVisibility(View.GONE)
         binding.progressBar.visibility = View.VISIBLE
         val mainRepository = MainRepository()
         val mainViewModelFactory = MainViewModelFactory(mainRepository)
         mainViewModel = ViewModelProvider(this, mainViewModelFactory).get(MainViewModel::class.java)
         mainViewModel.getProductWithId(productId)
+        setupObservers()
+        setContentView(binding.root)
+        setupButtonsAction()
+    }
+
+    private fun setupObservers() {
         mainViewModel.productResponse.observe(this, {
             product = it
             binding.progressBar.visibility = View.GONE
@@ -36,6 +43,9 @@ class ProductActivity : AppCompatActivity() {
             binding.productPrice.text = it.price.toString()
             binding.productSize.text = it.size
         })
+    }
+
+    private fun setupButtonsAction() {
         binding.back.setOnClickListener {
             finish()
         }
@@ -47,7 +57,6 @@ class ProductActivity : AppCompatActivity() {
                 Cart.updateTotal(product.price, 1)
             }
         }
-        setContentView(binding.root)
     }
 
     private fun changeWidgetsVisibility(state: Int) {

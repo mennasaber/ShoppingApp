@@ -10,4 +10,6 @@
     <color name="light_gray">#EAEAEA</color>
     <color name="light_black2">#A6A6A6</color>
     <color name="white">#FFFFFFFF</color>
+    <color name="green">#3AC500</color>
+    <color name="red">#E80000</color>
 </resources>

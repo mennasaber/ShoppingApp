@@ -21,9 +21,11 @@ class CartActivity : AppCompatActivity(), OnTotalChanged {
     lateinit var binding: ActivityCartBinding
     lateinit var orderViewModel: OrderViewModel
     lateinit var sharedPref: SharedPreferences
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityCartBinding.inflate(layoutInflater)
+
         sharedPref = getSharedPreferences(Constants.USER_DATA_NAME, Context.MODE_PRIVATE)
         if (Cart.cartList.count() != 0) {
             binding.parentLayout.visibility = View.VISIBLE
@@ -34,12 +36,7 @@ class CartActivity : AppCompatActivity(), OnTotalChanged {
             Cart.onTotalChanged = this
         } else binding.empty.visibility = View.VISIBLE
 
-        binding.back.setOnClickListener {
-            finish()
-        }
-        binding.checkout.setOnClickListener {
-            confirmOrder()
-        }
+        setupButtonsAction()
 
         val orderRepository = OrderRepository()
         val orderViewModelFactory = OrderViewModelFactory(orderRepository)
@@ -50,10 +47,19 @@ class CartActivity : AppCompatActivity(), OnTotalChanged {
         setContentView(binding.root)
     }
 
+    private fun setupButtonsAction() {
+        binding.back.setOnClickListener {
+            finish()
+        }
+        binding.checkout.setOnClickListener {
+            confirmOrder()
+        }
+    }
+
     private fun confirmOrder() {
         binding.progressBar.visibility = View.VISIBLE
         binding.parentLayout.visibility = View.GONE
-        val order = Cart.createOrderObject(sharedPref.getString("email","").toString())
+        val order = Cart.createOrderObject(sharedPref.getString("email", "").toString())
         orderViewModel.postOrder(order)
         orderViewModel.response.observe(this, {
             if (it) {

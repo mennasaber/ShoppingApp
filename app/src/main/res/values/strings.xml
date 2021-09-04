@@ -13,4 +13,14 @@
     <string name="phone">Mobile number</string>
     <string name="sign_up">Sign up</string>
     <string name="sign_in">Sign in</string>
+    <string name="orders_history">Orders history</string>
+    <string name="log_out">Log out</string>
+    <string name="details">Details</string>
+    <string name="active">active</string>
+    <string name="delivered">delivered</string>
+    <string name="total">Total:</string>
+    <string name="state">State:</string>
+    <string name="date">Date:</string>
+    <string name="items">Items</string>
+    <string name="dollar">$</string>
 </resources>
